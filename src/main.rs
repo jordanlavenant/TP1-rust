@@ -1,5 +1,5 @@
 fn main() {
-    #[derive(Debug, Clone)]
+    #[derive(Debug, Clone, Copy)]
     enum Filiere {
         Chimie,
         GEA,
@@ -20,6 +20,10 @@ fn main() {
                 Filiere::QLIO => println!("QLIO : C'est la qualité"),
             }
         }
+
+        fn affichage_filiere(self) {
+            self.appreciation();
+        }
     }
 
     #[derive(Debug, Clone)]
@@ -29,15 +33,24 @@ fn main() {
         filiere: Filiere,
     }
 
-    let s = Student {
+    impl Student {
+        fn affichage_etu(&self) {
+            println!("Nom : {}", self.nom);
+            println!("Prénom : {}", self.prenom);
+            self.filiere.appreciation();
+        }
+
+        fn japanifie(&mut self) {
+            self.nom = String::from("Doe-San");
+            self.prenom = String::from("John-Kun");
+        }
+    }
+
+    let mut s = Student {
         nom: String::from("Doe"),
         prenom: String::from("John"),
         filiere: Filiere::Info,
     };
-
-    fn affichage_filiere(f: Filiere) {
-        f.appreciation();
-    }
 
     println!("Affichage : {:?}", s);
 
@@ -47,7 +60,18 @@ fn main() {
     println!("Affichage : {:?}", s);
 
     let f = Filiere::Chimie;
+    f.affichage_filiere();
+    f.affichage_filiere();
 
-    affichage_filiere(f);
-    affichage_filiere(f);
+    let s0 = String::from("Hello");
+    let mut s1 = s0.clone();
+
+    s1 = String::from("World");
+
+    println!("s0 = {}", s0);
+    println!("s1 = {}", s1);
+
+    s.affichage_etu();
+    s.japanifie();
+    s.affichage_etu();
 }
